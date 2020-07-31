@@ -34,7 +34,7 @@ describe 'ボウリングスコアの計算' do
         @game.calc_score
         # 期待する合計 ()内はボーナス点
         # 3 + 7 + 4 + (4) = 18
-        expext(@game.total_score).to eq 18
+        expect(@game.total_score).to eq 18
       end
     end
     
@@ -52,7 +52,7 @@ describe 'ボウリングスコアの計算' do
         @game.calc_score
         # 期待する合計
         # 3 + 5 + 5 + 4 = 17
-        expext(@game.total_score).to eq 17
+        expect(@game.total_score).to eq 17
       end
     end
     
@@ -72,7 +72,7 @@ describe 'ボウリングスコアの計算' do
         @game.calc_score
         # 期待する合計
         # 3 + 7 + 4 + (4) + 3 + 7 = 28
-        expext(@game.total_score).to eq 28
+        expect(@game.total_score).to eq 28
       end
     end
   end
