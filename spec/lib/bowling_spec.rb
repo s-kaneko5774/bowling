@@ -7,19 +7,78 @@ describe 'ボウリングスコアの計算' do
   describe '全体の合計' do
     context '全ての投球がガターだった場合' do
       it '0になること' do
-        add_many_scores(20,0)
+        add_many_scores(20, 0)
+        @game.calc_score
         expect(@game.total_score).to eq 0
       end
     end
     
     context '全ての投球で1ピンずつ倒した場合' do
       it '20になること' do
-        add_many_scores(20,1)
+        add_many_scores(20, 1)
+        @game.calc_score
         expect(@game.total_score).to eq 20
+      end
+    end
+    
+    context 'スペアを撮った場合' do
+      it 'スペアボーナスが加算されること' do
+        # 第一フレームで3点,7点のスペア
+        @game.add_score(3)
+        @game.add_score(7)
+        # 第二フレームの一投目で4点
+        @game.add_score(4)
+        # 以降が全てガター
+        add_many_scores(17, 0)
+        # 合計を計算
+        @game.calc_score
+        # 期待する合計 ()内はボーナス点
+        # 3 + 7 + 4 + (4) = 18
+        expext(@game.total_score).to eq 18
+      end
+    end
+    
+    context 'フレーム違いでスペアになるようなスコアだった場合' do
+      it 'スペアボーナスが加算されていないこと' do
+        # 第一フレームで3点, 5点
+        @game.add_score(3)
+        @game.add_score(5)
+        # 第二フレームで5点, 4点
+        @game.add_score(5)
+        @game.add_score(4)
+        # 以降が全てガター
+        add_many_scores(16, 0)
+        # 合計を計算
+        @game.calc_score
+        # 期待する合計
+        # 3 + 5 + 5 + 4 = 17
+        expext(@game.total_score).to eq 17
+      end
+    end
+    
+    context '最終フレームでスペアを取った場合' do
+      it 'スペアボーナスが加算されていないこと' do
+        # 第一フレームで3点, 7点のスペア
+        @game.add_score(3)
+        @game.add_score(7)
+        # 第二フレームの一投目で4点
+        @game.add_score(4)
+        # 15投は全てガター
+        add_many_scores(15, 0)
+        # 最終フレームで3点, 7点のスペア
+        @game.add_score(3)
+        @game.add_score(7)
+        # 合計を計算
+        @game.calc_score
+        # 期待する合計
+        # 3 + 7 + 4 + (4) + 3 + 7 = 28
+        expext(@game.total_score).to eq 28
       end
     end
   end
 end
+
+describe ''
 
 private
 # 複数回のスコア追加をまとめて実行する
