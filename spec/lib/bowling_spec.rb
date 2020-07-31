@@ -78,8 +78,6 @@ describe 'ボウリングスコアの計算' do
   end
 end
 
-describe ''
-
 private
 # 複数回のスコア追加をまとめて実行する
 def add_many_scores(count, pins)
