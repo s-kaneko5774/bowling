@@ -148,7 +148,7 @@ describe 'ボウリングスコアの計算' do
         @game.calc_score
         # 期待する合計
         # 10 + 5 + (5) + 4 + (4) + 10 = 38
-        expect(@game.total_score).tp eq 38
+        expect(@game.total_score).to eq 38
       end
     end
   end
