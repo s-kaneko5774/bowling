@@ -13,7 +13,7 @@ class Bowling
 
   def add_score(pins)
     @temp << pins
-    if @temp.size == 2
+    if @temp.size == 2 || strike?(@temp)
       @scores << @temp
       @temp = []
     end
@@ -23,7 +23,10 @@ class Bowling
     @scores.each.with_index(1) do |score, index|
       # 最終フレーム以外でのスペアなら、スコアにボーナスを含めて合計する
       
-      if spare?(score) && not_last_frame?(index)
+      if strike?(score) && not_last_frame?(index)
+        #次のフレームもストライクで、なおかつ最終フレーム以外なら、もう一つの次のフレームの一等眼をボーナスの対象にする
+        @total_score += calc_strike_bonus(index)
+      elsif spare?(score) && not_last_frame?(index)
         @total_score += calc_spare_bonus(index)
       else
         @total_score += score.inject(:+)
@@ -45,5 +48,17 @@ class Bowling
   # スペアボーナスを含んだ値でスコアを計算する
   def calc_spare_bonus(index)
     10 + @scores[index].first
+  end
+  
+  def calc_strike_bonus(index)
+    if strike?(@scores[index]) && not_last_frame?(index + 1)
+      20 + @scores[index + 1].first
+    else
+      10 + @scores[index].inject(:+)
+    end
+  end
+  
+  def strike?(score)
+    score.first == 10
   end
 end
