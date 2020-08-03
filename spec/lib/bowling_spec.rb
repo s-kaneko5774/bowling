@@ -7,7 +7,7 @@ describe 'ボウリングスコアの計算' do
   describe 'フレームごとの合計' do
     context '全ての投球で1ピンずつ倒した場合' do
       it '1フレーム目の合計が2になること' do
-        add_many_scores(20, 1)
+        add_many_scores(2, 1)
         #合計を計算
         @game.calc_score
         expect(@game.frame_score(1)).to eq 2
@@ -23,8 +23,9 @@ describe 'ボウリングスコアの計算' do
         @game.add_score(4)
         # 以降は全てガター
         add_many_scores(17, 0)
-        #合計を計算 3 + 7 + 4 + (4) = 14
-        expect(@game.frame_score(1)).to eq 14
+        #合計を計算 3 + 7 + 4 + (4) = 18
+        @game.calc_score
+        expect(@game.frame_score(1)).to eq 18
       end
     end
     
@@ -37,8 +38,9 @@ describe 'ボウリングスコアの計算' do
         @game.add_score(4)
         # 以降は全てガター
         add_many_scores(16, 0)
-        #合計を計算 10 + (5) + (4) = 19
-        expect(@game.frame_score(1)).to eq 19
+        #合計を計算 10 + 5 + (5) + 4 + (4) = 28
+        @game.calc_score
+        expect(@game.frame_score(1)).to eq 28
       end
     end
   end
